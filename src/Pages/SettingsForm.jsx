@@ -5,7 +5,7 @@ import { defaultFormInput } from "../constants/AppConstants";
 import SETTINGS_API from "../services/Settings";
 import toast from "react-hot-toast";
 import { BallTriangle } from "react-loader-spinner";
-export default function Dashboard() {
+export default function SettingsForm() {
   const [data, setData] = useState(defaultFormInput);
   const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
