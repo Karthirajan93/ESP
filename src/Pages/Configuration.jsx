@@ -5,9 +5,10 @@ import { defaultFormInput } from "../constants/AppConstants";
 import SETTINGS_API from "../services/Settings";
 import toast from "react-hot-toast";
 import { BallTriangle } from "react-loader-spinner";
-export default function SettingsForm() {
+export default function Configuration(props) {
+  const { loading, setLoading } = props;
   const [data, setData] = useState(defaultFormInput);
-  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     console.log(e.target.name);
     setData({ ...data, [e.target.name]: e.target.value });
@@ -16,6 +17,7 @@ export default function SettingsForm() {
     try {
       setLoading(true);
       const response = await SETTINGS_API.getSettings();
+      setData(response);
       console.log(response);
       setLoading(false);
       toast.success("Settings fetched");
@@ -24,6 +26,9 @@ export default function SettingsForm() {
       console.log(e);
       toast.error("Unable to get settings");
     }
+  };
+  const handleResetSettings = () => {
+    setData(defaultFormInput);
   };
   const handleFetchSubmit = async () => {
     try {
@@ -38,26 +43,13 @@ export default function SettingsForm() {
       toast.error("Unable to send settings");
     }
   };
-  if (loading)
-    return (
-      <div className="w-screen flex flex-auto items-center justify-center ">
-        <BallTriangle
-          height={100}
-          width={100}
-          radius={5}
-          color="#1c4ed8"
-          ariaLabel="ball-triangle-loading"
-          wrapperClass={{}}
-          wrapperStyle=""
-          visible={true}
-        />
-      </div>
-    );
+
   return (
     <div className="border-[2px] border-blue-700 p-3 rounded-md  flex flex-col m-3 w-auto overflow-y-auto ">
+      <div className="text-xl font-bold mb-3">Configuration</div>
       <form onSubmit={handleFetchSubmit}>
         <TextBox
-          defaultValue={data["aodelay3p"]}
+          value={data["aodelay3p"]}
           name="aodelay3p"
           type="number"
           id="3PAutoOnDly"
@@ -70,7 +62,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["aodelay2p"]}
+          value={data["aodelay2p"]}
           name="aodelay2p"
           type="number"
           onChange={handleChange}
@@ -82,7 +74,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["sddelay"]}
+          value={data["sddelay"]}
           name="sddelay"
           type="number"
           onChange={handleChange}
@@ -94,7 +86,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["overvolt"]}
+          value={data["overvolt"]}
           name="overvolt"
           type="number"
           onChange={handleChange}
@@ -106,7 +98,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["lowvolt"]}
+          value={data["lowvolt"]}
           name="lowvolt"
           type="number"
           onChange={handleChange}
@@ -118,7 +110,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["dryrun3p"]}
+          value={data["dryrun3p"]}
           name="dryrun3p"
           type="number"
           onChange={handleChange}
@@ -130,7 +122,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["drdelay"]}
+          value={data["drdelay"]}
           name="drdelay"
           type="number"
           onChange={handleChange}
@@ -142,7 +134,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["drrt"]}
+          value={data["drrt"]}
           name="drrt"
           type="number"
           onChange={handleChange}
@@ -154,7 +146,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["ubtrip"]}
+          value={data["ubtrip"]}
           name="ubtrip"
           type="number"
           onChange={handleChange}
@@ -174,7 +166,7 @@ export default function SettingsForm() {
           </label>
           <div className="flex w-full justify-start gap-2 items-center">
             <Radio
-              defaultChecked={data["gsmc"] === "Enabled"}
+              checked={data["gsmc"] === "Enabled"}
               value="Enabled"
               onChange={handleChange}
               name="gsmc"
@@ -182,7 +174,7 @@ export default function SettingsForm() {
               id="gsmc_radio_1"
             />
             <Radio
-              defaultChecked={data["gsmc"] === "Disabled"}
+              checked={data["gsmc"] === "Disabled"}
               value="Disabled"
               onChange={handleChange}
               name="gsmc"
@@ -192,7 +184,7 @@ export default function SettingsForm() {
           </div>
         </div>
         <TextBox
-          defaultValue={data["ctratio"]}
+          value={data["ctratio"]}
           name="ctratio"
           type="number"
           onChange={handleChange}
@@ -212,7 +204,7 @@ export default function SettingsForm() {
           </label>
           <div className="flex w-full justify-start gap-2 items-center">
             <Radio
-              defaultChecked={data["ctrl2p"] === "Enabled"}
+              checked={data["ctrl2p"] === "Enabled"}
               value="Enabled"
               onChange={handleChange}
               name="ctrl2p"
@@ -220,7 +212,7 @@ export default function SettingsForm() {
               id="ctrl2p_radio_1"
             />
             <Radio
-              defaultChecked={data["ctrl2p"] === "Disabled"}
+              checked={data["ctrl2p"] === "Disabled"}
               value="Disabled"
               onChange={handleChange}
               name="ctrl2p"
@@ -230,7 +222,7 @@ export default function SettingsForm() {
           </div>
         </div>
         <TextBox
-          defaultValue={data["oltrip"]}
+          value={data["oltrip"]}
           name="oltrip"
           type="number"
           onChange={handleChange}
@@ -242,7 +234,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["hlvtrip"]}
+          value={data["hlvtrip"]}
           name="hlvtrip"
           type="number"
           onChange={handleChange}
@@ -254,7 +246,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["podelay"]}
+          value={data["podelay"]}
           name="podelay"
           type="number"
           onChange={handleChange}
@@ -266,7 +258,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["kvaradd"]}
+          value={data["kvaradd"]}
           name="kvaradd"
           type="number"
           onChange={handleChange}
@@ -278,7 +270,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["kvarremove"]}
+          value={data["kvarremove"]}
           name="kvarremove"
           type="number"
           onChange={handleChange}
@@ -298,7 +290,7 @@ export default function SettingsForm() {
           </label>
           <div className="flex w-full justify-start gap-2 items-center">
             <Radio
-              defaultChecked={data["gsmc"] === "Enabled"}
+              checked={data["kvaraddctrl"] === "Enabled"}
               value="Enabled"
               onChange={handleChange}
               name="kvaraddctrl"
@@ -306,7 +298,7 @@ export default function SettingsForm() {
               id="kvaraddctrl_radio_1"
             />
             <Radio
-              defaultChecked={data["gsmc"] === "Disabled"}
+              checked={data["kvaraddctrl"] === "Disabled"}
               value="Disabled"
               onChange={handleChange}
               name="kvaraddctrl"
@@ -316,7 +308,7 @@ export default function SettingsForm() {
           </div>
         </div>
         <TextBox
-          defaultValue={data["drstartcnt"]}
+          value={data["drstartcnt"]}
           name="drstartcnt"
           type="number"
           onChange={handleChange}
@@ -328,7 +320,7 @@ export default function SettingsForm() {
           required={true}
         />
         <TextBox
-          defaultValue={data["dryrun2p"]}
+          value={data["dryrun2p"]}
           name="dryrun2p"
           type="number"
           onChange={handleChange}
@@ -340,10 +332,18 @@ export default function SettingsForm() {
           required={true}
         />
         <div className="w-full flex flex-row justify-end gap-2">
+          <div className="cursor-pointer" onClick={handleResetSettings}>
+            <button
+              type="button"
+              className="  text-white bg-orange-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Clear all
+            </button>
+          </div>
           <div className="cursor-pointer" onClick={handleFetchSettings}>
             <button
               type="button"
-              className="  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="  text-white bg-green-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Fetch
             </button>
@@ -351,7 +351,7 @@ export default function SettingsForm() {
           <div className="cursor-pointer">
             <button
               type="submit"
-              className="  text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="  text-white bg-green-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Save
             </button>

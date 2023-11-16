@@ -1,11 +1,11 @@
 import { Toaster } from "react-hot-toast";
-import SettingsForm from "./Pages/SettingsForm";
-
+import Router from "./routes";
+import { HelmetProvider } from "react-helmet-async";
 export default function App() {
   return (
-    <div className="w-screen">
+    <HelmetProvider>
       <Toaster />
-      <SettingsForm />
-    </div>
+      <Router />
+    </HelmetProvider>
   );
 }

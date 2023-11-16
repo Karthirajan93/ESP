@@ -1,12 +1,12 @@
 import React from "react";
 
 export default function Radio(props) {
-  const { name, id, value, labelText, onChange, defaultChecked } = props;
+  const { name, id, value, labelText, onChange, checked } = props;
   return (
     <div className="flex items-center mb-4">
       <input
-        defaultChecked={defaultChecked}
         id={id}
+        checked={checked}
         type="radio"
         value={value}
         name={name}
